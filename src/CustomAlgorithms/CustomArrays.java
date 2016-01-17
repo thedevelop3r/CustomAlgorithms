@@ -212,6 +212,12 @@ public class CustomArrays
 		mergeSort(myArray, 0, myArray.length);
 	}
 
+	/**
+	 * The mergeSort method implements the merge sort algorithm as developed by
+	 * @param myArray
+	 * @param from
+	 * @param to
+	 */
 	public static void mergeSort(int[] myArray, int from, int to)
 	{
 		// base case (1 or 2 elements); switch elements if necessary
