@@ -1,7 +1,9 @@
+package CustomAlgorithms;
 /**
  * The CustomIntArrays class provides an API for searching, sorting, and
  * manipulating arrays of primitive ints.
- * @author rjm27
+ * @author Robert James Meade
+ * @version 0.3
  */
 public class CustomIntArrays
 {

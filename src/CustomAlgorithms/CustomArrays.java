@@ -1,29 +1,37 @@
 package CustomAlgorithms;
+
 /**
- * The CustomArrays class provides an API for managing arrays via a collection
- * of static methods.
+ * The CustomArrays class provides an API for searching, sorting, and manipulating arrays of Comparable references
  * @author Robert James Meade
- * @version 0.1
+ * @version 0.3
  */
 public class CustomArrays
 {
-
-	// Searching methods
-	// ---------------------------------------------------------------------------------------------------------------------
+	// Searches
+	// --------------------------------------------------------------
 
 	/**
-	 * The sequentialSearch method searches an array for the first index of a
-	 * value starting from index 0 and ending when the value if found. If the
-	 * value is not found, it returns -1.
-	 * @param myArray Array to search
-	 * @param myValue Value to find
-	 * @return First index of value
+	 * The sequentialSearch method searches the given array from start to finish
+	 * and returns the first index at which it finds the specified value. If the
+	 * value is not found, it returns -1. Running time:
+	 * <ul>
+	 * <li>average: O(n)</li>
+	 * <li>worst O(n)</li>
+	 * <li>best O(1)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to search
+	 * @param n Value to search for
+	 * @return Index of element (-1 if not found)
 	 */
-	public static int sequentialSearch(int[] myArray, int myValue)
+	public static int sequentialSearch(Comparable[] arr, Comparable n)
 	{
-		for (int i = 0; i < myArray.length; i++)
+		for (int i = 0; i < arr.length; i++)
 		{
-			if (myArray[i] == myValue)
+			if (arr[i].compareTo(n) == 0)
 			{
 				return i;
 			}
@@ -32,63 +40,326 @@ public class CustomArrays
 	}
 
 	/**
-	 * The binarySearch method searches a sorted Array for the first index of a
-	 * value by splitting the array until its length is 1. If the array is not
-	 * sorted and/or the value is not in the array, -1 is returned.
-	 * @param myArray Array to search
-	 * @param myValue Value to find
-	 * @return Index of Value
+	 * The binarySearchIterative method searches a pre-sorted array for a given
+	 * value using an iterative implementation of the binary search algorithm.
+	 * If the value is not found, it returns -1. This is not a stable search
+	 * (the original ordering of elements is not necessarily preserved). Running
+	 * time:
+	 * <ul>
+	 * <li>average: O(log n)</li>
+	 * <li>worst O(log n)</li>
+	 * <li>best O(1)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to search
+	 * @param n Value to search for
+	 * @return Index of element (-1 if not found)
 	 */
-	public static int binarySearch(int[] myArray, int myValue)
+	public static int binarySearchIterative(Comparable[] arr, Comparable n)
 	{
-		if (isSorted(myArray))
+		int to = arr.length - 1;
+		int from = 0;
+
+		while (from <= to)
 		{
-			// split the sorted array until the length is 1
-			int startIndex = 0;
-			int endIndex = myArray.length;
-			while (startIndex < endIndex - 1)
-			{
-				int middle = (startIndex + endIndex) / 2;
-				if (myValue >= myArray[middle])
-				{
-					startIndex = middle;
-				}
-				else
-				{
-					endIndex = middle;
-				}
-			}
-			// if the value was found return it
-			if (myArray[startIndex] == myValue)
-			{
-				return startIndex;
-			}
+			int middle = (from + to) / 2;
+
+			if (arr[middle].compareTo(n) == 0)
+				return middle;
+			else if (n.compareTo(arr[middle]) > 0)
+				from = middle + 1;
 			else
-			{
-				return -1;
-			}
+				to = middle - 1;
 		}
-		// if array is not sorted return -1
-		else
-		{
+		return -1;
+	}
+
+	/**
+	 * The binarySearchRecursive method searches a pre-sorted array for a given
+	 * value using an recursive implementation of the binary search algorithm.
+	 * If the value is not found, it returns -1. Running time:
+	 * <ul>
+	 * <li>average: O(n log n)</li>
+	 * <li>worst O(n log n)</li>
+	 * <li>best O(1)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to search
+	 * @param n Value to search for
+	 * @return Index of element (-1 if not found)
+	 */
+	public static int binarySearchRecursive(Comparable[] arr, int from, int to, Comparable n)
+	{
+		int middle = (to + from) / 2;
+
+		if (arr[middle].compareTo(n) == 0)
+			return middle;
+		else if (from > to)
 			return -1;
+		else if (n.compareTo(arr[middle]) > 0)
+			return binarySearchRecursive(arr, middle + 1, to, n);
+		else
+			return binarySearchRecursive(arr, from, middle - 1, n);
+	}
+
+	// Sorts
+	// -----------------------------------------------------
+
+	/**
+	 * The bubbleSort method implements Bubble Sort, an in place iterative
+	 * sorting algorithm. This implementation is stable (the original ordering
+	 * is preserved). \nRunning time:
+	 * <ul>
+	 * <li>average: O(n^2)</li>
+	 * <li>worst: O(n^2)</li>
+	 * <li>best: O(n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to sort
+	 */
+	public static void bubbleSort(Comparable[] arr)
+	{
+		for (int i = 0; i < arr.length; i++)
+		{
+			for (int j = 1; j < arr.length; j++)
+			{
+				// swap if in the wrong order
+				if (arr[j].compareTo(arr[j - 1]) < 0)
+				{
+					swap(arr, j, j - 1);
+				}
+			}
 		}
 	}
 
-	// Sequential Sorting Methods
-	// --------------------------------------------------------------------------------------------------------------------
+	/**
+	 * The selectionSort method implements Selection Sort, an in place iterative
+	 * sorting algorithm. This implementation is not stable (the original
+	 * ordering is not necessarily preserved). \nRunning time:
+	 * <ul>
+	 * <li>average: O(n^2)</li>
+	 * <li>worst: O(n^2)</li>
+	 * <li>best: O(n^2)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to sort
+	 */
+	public static void selectionSort(Comparable[] arr)
+	{
+		int sortedIndex = 0;
+
+		while (sortedIndex < arr.length)
+		{
+			int minIndex = sortedIndex;
+
+			// find the min value
+			for (int i = sortedIndex; i < arr.length; i++)
+			{
+				if (arr[minIndex].compareTo(arr[i]) > 0)
+				{
+					minIndex = i;
+				}
+			}
+
+			swap(arr, minIndex, sortedIndex);
+
+			sortedIndex++;
+		}
+	}
 
 	/**
-	 * The isSorted method checks if an array's values are in order from least
-	 * to greatest/
-	 * @param myArray Array to verify is sorted
-	 * @return Is the array sorted?
+	 * The insertionSort method implements Insertion Sort, a stable and in place
+	 * sorting algorithm. This implementation is stable (the original ordering
+	 * is preserved). \nRunning time:
+	 * <ul>
+	 * <li>average: O(n^2)</li>
+	 * <li>worst: O(n^2)</li>
+	 * <li>best: O(n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to sort
 	 */
-	public static boolean isSorted(int[] myArray)
+	public static void insertionSort(Comparable[] arr)
 	{
-		for (int i = 0; i < myArray.length - 1; i++)
+		int sortedIndex = 0;
+		int i = arr.length - 1;
+
+		// build sorted portion
+		while (sortedIndex < arr.length)
 		{
-			if (!(myArray[i] <= myArray[i + 1]))
+			boolean inserted = false;
+
+			// grab last element and insert
+			int j = 0;
+			while (!inserted && j < sortedIndex)
+			{
+				if (arr[i].compareTo(arr[j]) < 0)
+				{
+					insert(arr, j, arr[i]);
+					inserted = true;
+				}
+				else if (j == sortedIndex - 1)
+				{
+					insert(arr, sortedIndex, arr[i]);
+					inserted = true;
+				}
+
+				j++;
+			}
+			sortedIndex++;
+		}
+	}
+
+	/**
+	 * The mergeSort method implements Merge Sort, A recursive sorting algorithm
+	 * invented by John von Neumann in 1945. This implementation is not stable
+	 * (the original ordering is not necessarily preserved). \nRunning time:
+	 * <ul>
+	 * <li>average: O(n log n)</li>
+	 * <li>worst: O(n log n)</li>
+	 * <li>best: O(n log n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(n)</li>
+	 * </ul>
+	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
+	 */
+	public static void mergeSort(Comparable[] arr, int from, int to)
+	{
+		if (to - from > 1)
+		{
+			mergeSort(arr, from, (from + to) / 2);
+			mergeSort(arr, (from + to) / 2, to);
+		}
+		merge(arr, from, (from + to) / 2, to);
+	}
+
+	/**
+	 * The mergeSort method implements Merge Sort, A recursive, in place sorting
+	 * algorithm invented by C.A.R Hoard in 1962. This implementation is not
+	 * stable (the original ordering is not necessarily preserved). \nRunning
+	 * time:
+	 * <ul>
+	 * <li>average: O(n log n)</li>
+	 * <li>worst: O(n^2)</li>
+	 * <li>best: O(n log n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
+	 */
+	public static void quickSort(Comparable[] arr, int from, int to)
+	{
+		if (to - from > 1)
+		{
+			int pivot = from;
+			int left = from + 1;
+			int right = to - 1;
+
+			// sweep inward until left and right indices are 1 apart
+			while (left < right)
+			{
+				// sweep right to find value greater than pivot
+				if (arr[left].compareTo(arr[pivot]) <= 0)
+				{
+					left++;
+				}
+				// sweep left to find value less than pivot
+				else if (arr[right].compareTo(arr[pivot]) >= 0)
+				{
+					right--;
+				}
+				else
+				{
+					swap(arr, right, left);
+					left++;
+					right--;
+				}
+			}
+
+			// place pivot in correct position
+			// place pivot 1 less than left index if less than left index value
+			if (arr[pivot].compareTo(arr[left]) < 0)
+			{
+				swap(arr, pivot, left - 1);
+				pivot = left - 1;
+			}
+			// plase pivot at left index if greater than or equal to left index
+			// value
+			else
+			{
+				swap(arr, pivot, left);
+				pivot = left;
+			}
+
+			// recursively sort remaining partitions
+			quickSort(arr, from, pivot);
+			quickSort(arr, pivot + 1, to);
+		}
+	}
+
+	/**
+	 * The mergeSort method implements Merge Sort, A recursive, in place sorting
+	 * algorithm invented by C.A.R Hoard in 1960. This implementation is not
+	 * stable (the original ordering is not necessarily preserved). \nRunning
+	 * time:
+	 * <ul>
+	 * <li>average: O(n log n)</li>
+	 * <li>worst: O(n log n)</li>
+	 * <li>best: O(n log n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to sort
+	 */
+	public static void heapSort(Comparable[] arr)
+	{
+		int i = arr.length - 1;
+		for (i = arr.length - 1; i > 0; i--)
+		{
+			maxHeapify(arr, i + 1);
+			swap(arr, 0, i);
+		}
+	}
+
+	// Helper methods
+	// ------------------------------------------------------------------
+
+	/**
+	 * The isSorted method checks if an array is sorted ascending or descending.
+	 * @param arr Array to check
+	 * @param ascending Check ascending (true) or Check descending (false)
+	 * @return is the array in the specified ordering
+	 */
+	public static boolean isSorted(Comparable[] arr, boolean ascending)
+	{
+		for (int i = 0; i < arr.length - 1; i++)
+		{
+			if ((arr[i].compareTo(arr[i + 1]) > 0) == ascending)
 			{
 				return false;
 			}
@@ -97,332 +368,164 @@ public class CustomArrays
 	}
 
 	/**
-	 * The bubbleSort method sorts an array by iterating through its length
-	 * times (length^2 iterations) and switches elements that are in the wrong
-	 * order each time to sort the array.
-	 * @param myArray Array to sort.
+	 * The swap method swaps elements in the two specified array indices.
+	 * @param arr Array to swap elements of
+	 * @param index1 first index to swap
+	 * @param index2 second index to swap
 	 */
-	public static void bubbleSort(int[] myArray)
+	public static void swap(Comparable[] arr, int index1, int index2)
 	{
-		int temp;
-		for (int i = 0; i < myArray.length; i++)
-		{
-			for (int j = 0; j < myArray.length - 1; j++)
-			{
-				if (myArray[j] > myArray[j + 1])
-				{
-					temp = myArray[j];
-					myArray[j] = myArray[j + 1];
-					myArray[j + 1] = temp;
-				}
-			}
-		}
+		Comparable temp = arr[index1];
+		arr[index1] = arr[index2];
+		arr[index2] = temp;
 	}
 
 	/**
-	 * The selection sort pulls objects out of an array in descending order,
-	 * population a new sorted array, and then sets the original array to the
-	 * sorted array.
-	 * @param myArray Array to sort.
+	 * The insert method shifts all elements 1 to the left of the specified
+	 * index and inserts the given value at that index.
+	 * @param arr Array to insert element in
+	 * @param index Index to insert element at
+	 * @param n Value to insert
 	 */
-	public static void selectionSort(int[] myArray)
+	public static void insert(Comparable[] arr, int index, Comparable n)
 	{
-		int maxValue = -Integer.MAX_VALUE;
-		int previousMaxValue = Integer.MAX_VALUE;
-
-		// build working array
-		int[] myTempArray = new int[myArray.length];
-		for (int i = 0; i < myArray.length; i++)
+		// shift elements 1 to the right
+		for (int i = arr.length - 1; i > index; i--)
 		{
-			myTempArray[i] = myArray[i];
+			arr[i] = arr[i - 1];
 		}
-
-		// insert next largest value into myArray from working array
-		int j = myTempArray.length - 1;
-		while (j >= 0)
-		{
-			for (int i = 0; i < myTempArray.length; i++)
-			{
-				if (myTempArray[i] > maxValue && myTempArray[i] < previousMaxValue)
-				{
-					maxValue = myTempArray[i];
-				}
-			}
-			myArray[j] = maxValue;
-			j--;
-			previousMaxValue = maxValue;
-			maxValue = -Integer.MAX_VALUE;
-		}
+		arr[index] = n;
 	}
 
 	/**
-	 * The insertionSort method implements a sequential sort using the
-	 * insertionSort algorithm.
-	 * @param myArray Array to sort.
+	 * The merge method merges two sorted sub-arrays contained in a given array
+	 * back into that given array. The sub-arrays are defined by the specified
+	 * indices.
+	 * @param arr Array to merge sub-arrays in to
+	 * @param from start index (inclusive in first half)
+	 * @param middle middle index (inclusive in second half, exclusive in first
+	 *        half)
+	 * @param to end index (not inclusive)
 	 */
-	public static void insertionSort(int[] myArray)
+	public static void merge(Comparable[] arr, int from, int middle, int to)
 	{
-		int sortedLength = 0;
-		int i = myArray.length - 1;
-		while (sortedLength < myArray.length)
-		{
-			// iterate through sorted portion and insert element
-			for (int j = 0; j < sortedLength; j++)
-			{
-				if (myArray[i] < myArray[j])
-				{
-					insert(myArray, j, myArray[i]);
-				}
-				else if (j == sortedLength - 1)
-				{
-					insert(myArray, j + 1, myArray[i]);
-				}
-			}
-			sortedLength++;
-		}
-	}
+		// create temp array
+		Comparable[] tempArr = new Comparable[arr.length];
 
-	/**
-	 * The insert method inserts a value into a given Array, shifting the values
-	 * past the index to the right to make room for the new value. The method
-	 * acts as a helper method for the insertionSort method.
-	 * @param myArray Array in which to insert element
-	 * @param myIndex Index in which to insert element
-	 * @param myValue Element to insert
-	 */
-	public static void insert(int[] myArray, int myIndex, int myValue)
-	{
-		for (int i = myArray.length - 1; i > myIndex; i--)
-		{
-			myArray[i] = myArray[i - 1];
-		}
-		myArray[myIndex] = myValue;
-	}
+		for (int i = 0; i < arr.length; i++)
+			tempArr[i] = arr[i];
 
-	// Non-sequential Recursive Sorting Methods
-	// ------------------------------------------------------------------------------------------------------------------------------
-
-	/**
-	 * The mergeSort method uses the overloaded recursive mergeSort method to
-	 * enact a mergeSort on the entire array instead of a specific section.
-	 * @param myArray Array to mergeSort
-	 */
-	public static void mergeSort(int[] myArray)
-	{
-		mergeSort(myArray, 0, myArray.length);
-	}
-
-	/**
-	 * The mergeSort method implements the merge sort algorithm as developed by
-	 * @param myArray
-	 * @param from
-	 * @param to
-	 */
-	public static void mergeSort(int[] myArray, int from, int to)
-	{
-		// base case (1 or 2 elements); switch elements if necessary
-		if (to - from < 2)
-		{
-			if (myArray.length != 1)
-			{
-				if (myArray[from] == myArray[to - 1])
-				{
-					// switch elements if not in order
-					int temp = myArray[from];
-					myArray[from] = myArray[to - 1];
-					myArray[to - 1] = temp;
-				}
-				else
-				{
-					// pass if elements in order
-				}
-			}
-			else
-			{
-				// pass if length of 1 instead of 2
-			}
-		}
-		// recursive case
-		else
-		{
-			int middle = (to + from) / 2;
-			mergeSort(myArray, from, middle);
-			mergeSort(myArray, middle, to);
-			merge(myArray, from, middle, to);
-		}
-	}
-
-	/**
-	 * The merge method merges two sorted subArrays into the main Array in the
-	 * correct order.
-	 * @param myArray Array to merge in to
-	 * @param from Starting index
-	 * @param middle Middle Index
-	 * @param to Ending index
-	 */
-	public static void merge(int myArray[], int from, int middle, int to)
-	{
-		int[] myTempArray = new int[to - from];
 		int i = from;
 		int j = middle;
-		int k = 0;
 
-		// merger two sorted halves into empty array in order least to greatest
+		// merge sorted array stacks in sorted order
+		int k = from;
 		while (i < middle && j < to)
 		{
-			if (myArray[i] < myArray[j])
+			if (arr[i].compareTo(arr[j]) < 0)
 			{
-				myTempArray[k] = myArray[i];
+				tempArr[k] = arr[i];
 				i++;
 			}
 			else
 			{
-				myTempArray[k] = myArray[j];
+				tempArr[k] = arr[j];
 				j++;
 			}
+
 			k++;
 		}
 
-		// add remaining elements in myArray[from, middle-1] temp array
+		// finish merging left stack
 		while (i < middle)
 		{
-			myTempArray[k] = myArray[i];
+			tempArr[k] = arr[i];
 			i++;
 			k++;
 		}
 
-		// add remaining elements in myArray[middle, to-1] to temp array
+		// finish merging right stack
 		while (j < to)
 		{
-			myTempArray[k] = myArray[j];
+			tempArr[k] = arr[j];
 			j++;
 			k++;
 		}
 
-		// merge temp array back into myArray
-		for (int l = 0; l < myTempArray.length; l++)
+		// put temp back into main arr
+		for (i = from; i < to; i++)
 		{
-			myArray[l + from] = myTempArray[l];
-		}
-	}
-
-	public static void quickSort(int[] myArray)
-	{
-		quickSort(myArray, 0, myArray.length);
-	}
-
-	/**
-	 * The quickSort method implements a the quickSort algorithm as developed by
-	 * C. A. R. Hoare in 1962.
-	 * @param myArray Array to sort
-	 */
-	public static void quickSort(int[] myArray, int from, int to)
-	{
-		if (to - from > 1)
-		{
-			// pivot - index of pivot
-			int pivot = from;
-			// left - left cursor
-			int left = from + 1;
-			// right - right cursor
-			int right = to - 1;
-
-			// iterate inward from both sides of the array until the middle is
-			// reached, swap elements so that they are going to be on the
-			// proper side of the pivot
-			while (left < right)
-			{
-				// sweep left
-				if (myArray[left] <= myArray[pivot])
-				{
-					left++;
-				}
-				// sweep right
-				else if (myArray[right] >= myArray[pivot])
-				{
-					right--;
-				}
-				// swap the elements to be on the right side of the pivot
-				else
-				{
-					swap(myArray, left, right);
-					left++;
-					right--;
-				}
-			}
-
-			// place pivot in proper place
-			// place pivot at middle index if greater than middle index
-			if (myArray[pivot] > myArray[left])
-			{
-				swap(myArray, left, pivot);
-				pivot = left;
-			}
-			// place pivot directly left of middle index if less than the middle
-			// index
-			else
-			{
-				swap(myArray, left - 1, pivot);
-				pivot = left - 1;
-			}
-
-			// make recursive calls to new sub arrays that exclude the pivot
-			// index
-			quickSort(myArray, from, pivot);
-			quickSort(myArray, pivot + 1, to);
+			arr[i] = tempArr[i];
 		}
 	}
 
 	/**
-	 * The swap method swaps the places of two elements in an array.
-	 * @param myArray Array in which to swap elements
-	 * @param myIndex1 First index
-	 * @param myIndex2 Second index
+	 * The maxHeapify method creates a max heap data structure out of a given
+	 * array.
+	 * @param arr Array to heapify in max ordering
+	 * @param to index to end heap data structure at (not inclusive)
 	 */
-	public static void swap(int myArray[], int myIndex1, int myIndex2)
+	public static void maxHeapify(Comparable[] arr, int to)
 	{
-		int temp = myArray[myIndex1];
-		myArray[myIndex1] = myArray[myIndex2];
-		myArray[myIndex2] = temp;
-	}
-
-	/**
-	 * This was supposed to be a quick sort, but it always has n^2 iterations.
-	 * It works off of the pivot idea, but it isn't the sort. I don't know what
-	 * it is.
-	 * @param myArray Array to sort
-	 */
-	public static void pivotSort(int[] myArray)
-	{
-		int p = myArray.length - 1;
-		for (int i = 0; i < myArray.length; i++)
+		// build a max heap for the given portion of the array by maxHeapifying
+		// the sub-heaps beginning on the lowest layer (starting at index to /
+		// 2) of sub-heaps in the portion with children nodes
+		// and working backwards up the array
+		for (int i = to / 2; i >= 0; i--)
 		{
-			for (int j = 0; j < myArray.length; j++)
-			{
-				if (p > j)
-				{
-					if (myArray[p] <= myArray[j])
-					{
-						swap(myArray, p, j);
-					}
-				}
-				else
-				{
-					if (myArray[p] >= myArray[j])
-					{
-						swap(myArray, p, j);
-					}
-				}
-			}
-			p--;
+			siftUp(arr, i, to);
 		}
 	}
 
-	public static void heapSort(int[] myArray)
+	/**
+	 * The siftUp method corrects the ordering in a portion of a max heap data
+	 * structure recursively.
+	 * @param arr Array to correct ordering of max heap portion in
+	 * @param from parent index (inclusive)
+	 * @param to ending index for heapifying (not inclusive)
+	 */
+	public static void siftUp(Comparable[] arr, int from, int to)
 	{
+		// get child nodes of from index
+		int left = 2 * from + 1;
+		int right = 2 * from + 2;
+
+		// set the parent to the maximum element and recursively maxHeapify the
+		// child heap whose root was swapped
+		if (left < to && right < to)
+		{
+			if (arr[from].compareTo(arr[left]) < 0 && arr[left].compareTo(arr[right]) > 0)
+			{
+				swap(arr, from, left);
+				siftUp(arr, left, to);
+			}
+			else if (arr[from].compareTo(arr[right]) < 0)
+			{
+				swap(arr, from, right);
+				siftUp(arr, right, to);
+			}
+		}
+		// handle single child node on edge of array heap
+		else if (left < to)
+		{
+			if (arr[from].compareTo(arr[left]) < 0)
+			{
+				swap(arr, from, left);
+			}
+		}
 	}
 
-	public static void radixSort(int[] myArray)
+	/**
+	 * The printArray method prints an Comparable[] array in the format [a,b,c,...,n]
+	 * @param arr Array to print
+	 */
+	public static void printArray(Comparable[] arr)
 	{
+		String output = "[";
+		for (Comparable n : arr)
+		{
+			output += n + ",";
+		}
+		System.out.println(output.substring(0, output.length() - 1) + "]");
 	}
 }
