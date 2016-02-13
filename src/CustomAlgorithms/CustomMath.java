@@ -7,11 +7,6 @@ package CustomAlgorithms;
 public class CustomMath
 {
 	
-	public static void main(String[] args)
-	{
-		System.out.println(fibonacci(13));
-	}
-	
 	/**
 	 * A for-loop implementation of a prime number test.
 	 * @param n number to check

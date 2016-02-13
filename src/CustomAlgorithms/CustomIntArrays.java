@@ -276,7 +276,7 @@ public class CustomIntArrays
 
 	/**
 	 * The mergeSort method implements Merge Sort, A recursive, in place sorting
-	 * algorithm invented by C.A.R Hoard in 1962. This implementation is not
+	 * algorithm invented by C.A.R Hoare in 1962. This implementation is not
 	 * stable (the original ordering is not necessarily preserved). \nRunning
 	 * time:
 	 * <ul>
@@ -344,7 +344,7 @@ public class CustomIntArrays
 
 	/**
 	 * The mergeSort method implements Merge Sort, A recursive, in place sorting
-	 * algorithm invented by C.A.R Hoard in 1960. This implementation is not
+	 * algorithm invented by C.A.R Hoare in 1960. This implementation is not
 	 * stable (the original ordering is not necessarily preserved). \nRunning
 	 * time:
 	 * <ul>
