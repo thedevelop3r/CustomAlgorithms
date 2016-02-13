@@ -59,7 +59,7 @@ public class CustomMath
 
 	/**
 	 * A recursive implementation of a prime number test.
-	 * @param n
+	 * @param n value to check
 	 * @param i Counter; must start at a value of 2 to function properly
 	 * @return isPrime
 	 */
@@ -85,10 +85,10 @@ public class CustomMath
 	}
 	
 	/**
-	 * The random method gets a random double in the range [a,b]
+	 * The random method gets a random double in the range [a,b)
 	 * @param a lower bound
 	 * @param b upper bound
-	 * @return Random double in the range [a,b]
+	 * @return Random double in the range [a,b)
 	 */
 	public static double random(double a, double b)
 	{

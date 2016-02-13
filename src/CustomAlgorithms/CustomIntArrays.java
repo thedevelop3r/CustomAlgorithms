@@ -1,4 +1,5 @@
 package CustomAlgorithms;
+
 /**
  * The CustomIntArrays class provides an API for searching, sorting, and
  * manipulating arrays of primitive ints.
@@ -431,16 +432,16 @@ public class CustomIntArrays
 	public static void merge(int[] arr, int from, int middle, int to)
 	{
 		// create temp array
-		int[] tempArr = new int[arr.length];
+		int[] tempArr = new int[to - from];
 
-		for (int i = 0; i < arr.length; i++)
-			tempArr[i] = arr[i];
+		for (int i = 0; i < tempArr.length; i++)
+			tempArr[i] = arr[from + i];
 
 		int i = from;
 		int j = middle;
 
 		// merge sorted array stacks in sorted order
-		int k = from;
+		int k = 0;
 		while (i < middle && j < to)
 		{
 			if (arr[i] < arr[j])
@@ -474,9 +475,9 @@ public class CustomIntArrays
 		}
 
 		// put temp back into main arr
-		for (i = from; i < to; i++)
+		for (i = 0; i < tempArr.length; i++)
 		{
-			arr[i] = tempArr[i];
+			arr[from + i] = tempArr[i];
 		}
 	}
 
@@ -500,7 +501,7 @@ public class CustomIntArrays
 
 	/**
 	 * The siftUp method corrects the ordering in a portion of a max heap data
-	 * structure recursively.
+	 * structure iteratively.
 	 * @param arr Array to correct ordering of max heap portion in
 	 * @param from parent index (inclusive)
 	 * @param to ending index for heapifying (not inclusive)
@@ -511,23 +512,30 @@ public class CustomIntArrays
 		int left = 2 * from + 1;
 		int right = 2 * from + 2;
 
-		// set the parent to the maximum element and recursively maxHeapify the
-		// child heap whose root was swapped
-		if (left < to && right < to)
+		// move the maximum element found out of the staring parent and its
+		// child up the heap until it is its the proper place
+		while (left < to && right < to)
 		{
 			if (arr[from] < arr[left] && arr[left] > arr[right])
 			{
 				swap(arr, from, left);
-				siftUp(arr, left, to);
+				from = left;
 			}
 			else if (arr[from] < arr[right])
 			{
 				swap(arr, from, right);
-				siftUp(arr, right, to);
+				from = right;
 			}
+			// portion already a max heap -> early return
+			else
+			{
+				return;
+			}
+			left = 2 * from + 1;
+			right = 2 * from + 2;
 		}
-		// handle single child node on edge of array heap
-		else if (left < to)
+		// catch single child case
+		if (left < to)
 		{
 			if (arr[from] < arr[left])
 			{

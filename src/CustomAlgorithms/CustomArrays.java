@@ -7,6 +7,7 @@ package CustomAlgorithms;
  */
 public class CustomArrays
 {
+	
 	// Searches
 	// --------------------------------------------------------------
 
@@ -91,6 +92,8 @@ public class CustomArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to search
+	 * @param from starting index (inclusive)
+	 * @param to ending index (inclusive)
 	 * @param n Value to search for
 	 * @return Index of element (-1 if not found)
 	 */
@@ -410,16 +413,16 @@ public class CustomArrays
 	public static void merge(Comparable[] arr, int from, int middle, int to)
 	{
 		// create temp array
-		Comparable[] tempArr = new Comparable[arr.length];
+		Comparable[] tempArr = new Comparable[to - from];
 
-		for (int i = 0; i < arr.length; i++)
-			tempArr[i] = arr[i];
+		for (int i = 0; i < tempArr.length; i++)
+			tempArr[i] = arr[from + i];
 
 		int i = from;
 		int j = middle;
 
 		// merge sorted array stacks in sorted order
-		int k = from;
+		int k = 0;
 		while (i < middle && j < to)
 		{
 			if (arr[i].compareTo(arr[j]) < 0)
@@ -453,9 +456,9 @@ public class CustomArrays
 		}
 
 		// put temp back into main arr
-		for (i = from; i < to; i++)
+		for (i = 0; i < tempArr.length; i++)
 		{
-			arr[i] = tempArr[i];
+			arr[from + i] = tempArr[i];
 		}
 	}
 
@@ -479,7 +482,7 @@ public class CustomArrays
 
 	/**
 	 * The siftUp method corrects the ordering in a portion of a max heap data
-	 * structure recursively.
+	 * structure iteratively.
 	 * @param arr Array to correct ordering of max heap portion in
 	 * @param from parent index (inclusive)
 	 * @param to ending index for heapifying (not inclusive)
@@ -490,23 +493,30 @@ public class CustomArrays
 		int left = 2 * from + 1;
 		int right = 2 * from + 2;
 
-		// set the parent to the maximum element and recursively maxHeapify the
-		// child heap whose root was swapped
-		if (left < to && right < to)
+		// move the maximum element found out of the staring parent and its
+		// child up the heap until it is its the proper place
+		while (left < to && right < to)
 		{
 			if (arr[from].compareTo(arr[left]) < 0 && arr[left].compareTo(arr[right]) > 0)
 			{
 				swap(arr, from, left);
-				siftUp(arr, left, to);
+				from = left;
 			}
 			else if (arr[from].compareTo(arr[right]) < 0)
 			{
 				swap(arr, from, right);
-				siftUp(arr, right, to);
+				from = right;
 			}
+			// portion already a max heap -> early return
+			else
+			{
+				return;
+			}
+			left = 2 * from + 1;
+			right = 2 * from + 2;
 		}
-		// handle single child node on edge of array heap
-		else if (left < to)
+		// catch single child case
+		if (left < to)
 		{
 			if (arr[from].compareTo(arr[left]) < 0)
 			{
