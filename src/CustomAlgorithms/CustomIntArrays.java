@@ -360,11 +360,11 @@ public class CustomIntArrays
 	 */
 	public static void heapSort(int[] arr)
 	{
-		int i = arr.length - 1;
-		for (i = arr.length - 1; i > 0; i--)
+		maxHeapify(arr, arr.length);
+		for (int i = arr.length - 1; i > 0; i--)
 		{
-			maxHeapify(arr, i + 1);
 			swap(arr, 0, i);
+			siftDown(arr, 0, i);
 		}
 	}
 
@@ -495,18 +495,18 @@ public class CustomIntArrays
 		// and working backwards up the array
 		for (int i = to / 2; i >= 0; i--)
 		{
-			siftUp(arr, i, to);
+			siftDown(arr, i, to);
 		}
 	}
 
 	/**
-	 * The siftUp method corrects the ordering in a portion of a max heap data
+	 * The siftDown method corrects the ordering in a portion of a max heap data
 	 * structure iteratively.
 	 * @param arr Array to correct ordering of max heap portion in
 	 * @param from parent index (inclusive)
 	 * @param to ending index for heapifying (not inclusive)
 	 */
-	public static void siftUp(int[] arr, int from, int to)
+	public static void siftDown(int[] arr, int from, int to)
 	{
 		// get child nodes of from index
 		int left = 2 * from + 1;

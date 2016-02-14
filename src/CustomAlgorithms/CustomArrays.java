@@ -341,11 +341,11 @@ public class CustomArrays
 	 */
 	public static void heapSort(Comparable[] arr)
 	{
-		int i = arr.length - 1;
-		for (i = arr.length - 1; i > 0; i--)
+		maxHeapify(arr, arr.length);
+		for (int i = arr.length - 1; i > 0; i--)
 		{
-			maxHeapify(arr, i + 1);
 			swap(arr, 0, i);
+			siftDown(arr, 0, i);
 		}
 	}
 
@@ -476,7 +476,7 @@ public class CustomArrays
 		// and working backwards up the array
 		for (int i = to / 2; i >= 0; i--)
 		{
-			siftUp(arr, i, to);
+			siftDown(arr, i, to);
 		}
 	}
 
@@ -487,7 +487,7 @@ public class CustomArrays
 	 * @param from parent index (inclusive)
 	 * @param to ending index for heapifying (not inclusive)
 	 */
-	public static void siftUp(Comparable[] arr, int from, int to)
+	public static void siftDown(Comparable[] arr, int from, int to)
 	{
 		// get child nodes of from index
 		int left = 2 * from + 1;
