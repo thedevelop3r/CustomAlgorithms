@@ -256,7 +256,7 @@ public class CustomArrays
 	}
 
 	/**
-	 * The mergeSort method implements Merge Sort, A recursive, in place sorting
+	 * The quickSort method implements quick Sort, A recursive, in place sorting
 	 * algorithm invented by C.A.R Hoare in 1962. This implementation is not
 	 * stable (the original ordering is not necessarily preserved). \nRunning
 	 * time:
@@ -324,8 +324,8 @@ public class CustomArrays
 	}
 
 	/**
-	 * The mergeSort method implements Merge Sort, A recursive, in place sorting
-	 * algorithm invented by C.A.R Hoard in 1960. This implementation is not
+	 * The heapSort method implements heap Sort, An in place sorting
+	 * algorithm invented by J. W. J. Williams in 1964. This implementation is not
 	 * stable (the original ordering is not necessarily preserved). \nRunning
 	 * time:
 	 * <ul>
