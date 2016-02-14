@@ -1,13 +1,14 @@
 package CustomAlgorithms;
 
 /**
- * The CustomArrays class provides an API for searching, sorting, and manipulating arrays of Comparable references
+ * The CustomArrays class provides an API for searching, sorting, and
+ * manipulating arrays of Comparable references
  * @author Robert James Meade
  * @version 0.3
  */
 public class CustomArrays
 {
-	
+
 	// Searches
 	// --------------------------------------------------------------
 
@@ -26,13 +27,15 @@ public class CustomArrays
 	 * </ul>
 	 * @param arr Array to search
 	 * @param n Value to search for
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 * @return Index of element (-1 if not found)
 	 */
-	public static int sequentialSearch(Comparable[] arr, Comparable n)
+	public static <T> int sequentialSearch(Comparable<T>[] arr, int from, int to, Comparable<T> n)
 	{
-		for (int i = 0; i < arr.length; i++)
+		for (int i = from; i < to; i++)
 		{
-			if (arr[i].compareTo(n) == 0)
+			if (arr[i].compareTo((T) n) == 0)
 			{
 				return i;
 			}
@@ -57,58 +60,26 @@ public class CustomArrays
 	 * </ul>
 	 * @param arr Array to search
 	 * @param n Value to search for
+	 * @param from starting value (inclusive)
+	 * @param to ending value (exclusive)
 	 * @return Index of element (-1 if not found)
 	 */
-	public static int binarySearchIterative(Comparable[] arr, Comparable n)
+	public static <T> int binarySearch(Comparable<T>[] arr, int from, int to, Comparable<T> n)
 	{
-		int to = arr.length - 1;
-		int from = 0;
+		to--;
 
 		while (from <= to)
 		{
 			int middle = (from + to) / 2;
 
-			if (arr[middle].compareTo(n) == 0)
+			if (arr[middle].compareTo((T) n) == 0)
 				return middle;
-			else if (n.compareTo(arr[middle]) > 0)
+			else if (n.compareTo((T) arr[middle]) > 0)
 				from = middle + 1;
 			else
 				to = middle - 1;
 		}
 		return -1;
-	}
-
-	/**
-	 * The binarySearchRecursive method searches a pre-sorted array for a given
-	 * value using an recursive implementation of the binary search algorithm.
-	 * If the value is not found, it returns -1. Running time:
-	 * <ul>
-	 * <li>average: O(n log n)</li>
-	 * <li>worst O(n log n)</li>
-	 * <li>best O(1)</li>
-	 * </ul>
-	 * Memory Usage:
-	 * <ul>
-	 * <li>O(1)</li>
-	 * </ul>
-	 * @param arr Array to search
-	 * @param from starting index (inclusive)
-	 * @param to ending index (inclusive)
-	 * @param n Value to search for
-	 * @return Index of element (-1 if not found)
-	 */
-	public static int binarySearchRecursive(Comparable[] arr, int from, int to, Comparable n)
-	{
-		int middle = (to + from) / 2;
-
-		if (arr[middle].compareTo(n) == 0)
-			return middle;
-		else if (from > to)
-			return -1;
-		else if (n.compareTo(arr[middle]) > 0)
-			return binarySearchRecursive(arr, middle + 1, to, n);
-		else
-			return binarySearchRecursive(arr, from, middle - 1, n);
 	}
 
 	// Sorts
@@ -128,15 +99,17 @@ public class CustomArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 */
-	public static void bubbleSort(Comparable[] arr)
+	public static <T> void bubbleSort(Comparable<T>[] arr, int from, int to)
 	{
-		for (int i = 0; i < arr.length; i++)
+		for (int i = from; i < to; i++)
 		{
-			for (int j = 1; j < arr.length; j++)
+			for (int j = from + 1; j < to; j++)
 			{
 				// swap if in the wrong order
-				if (arr[j].compareTo(arr[j - 1]) < 0)
+				if (arr[j].compareTo((T) arr[j - 1]) < 0)
 				{
 					swap(arr, j, j - 1);
 				}
@@ -158,19 +131,21 @@ public class CustomArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 */
-	public static void selectionSort(Comparable[] arr)
+	public static <T> void selectionSort(Comparable<T>[] arr, int from, int to)
 	{
-		int sortedIndex = 0;
+		int sortedIndex = from;
 
-		while (sortedIndex < arr.length)
+		while (sortedIndex < to)
 		{
 			int minIndex = sortedIndex;
 
 			// find the min value
-			for (int i = sortedIndex; i < arr.length; i++)
+			for (int i = sortedIndex; i < to; i++)
 			{
-				if (arr[minIndex].compareTo(arr[i]) > 0)
+				if (arr[minIndex].compareTo((T) arr[i]) > 0)
 				{
 					minIndex = i;
 				}
@@ -195,23 +170,26 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
+	 * @param <T>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 */
-	public static void insertionSort(Comparable[] arr)
+	public static <T> void insertionSort(Comparable<T>[] arr, int from, int to)
 	{
-		int sortedIndex = 0;
-		int i = arr.length - 1;
+		int sortedIndex = from;
+		int i = to - 1;
 
 		// build sorted portion
-		while (sortedIndex < arr.length)
+		while (sortedIndex < to)
 		{
 			boolean inserted = false;
 
 			// grab last element and insert
-			int j = 0;
+			int j = from;
 			while (!inserted && j < sortedIndex)
 			{
-				if (arr[i].compareTo(arr[j]) < 0)
+				if (arr[i].compareTo((T) arr[j]) < 0)
 				{
 					insert(arr, j, arr[i]);
 					inserted = true;
@@ -245,7 +223,7 @@ public class CustomArrays
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static void mergeSort(Comparable[] arr, int from, int to)
+	public static <T> void mergeSort(Comparable<T>[] arr, int from, int to)
 	{
 		if (to - from > 1)
 		{
@@ -273,7 +251,7 @@ public class CustomArrays
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static void quickSort(Comparable[] arr, int from, int to)
+	public static <T> void quickSort(Comparable<T>[] arr, int from, int to)
 	{
 		if (to - from > 1)
 		{
@@ -285,12 +263,12 @@ public class CustomArrays
 			while (left < right)
 			{
 				// sweep right to find value greater than pivot
-				if (arr[left].compareTo(arr[pivot]) <= 0)
+				if (arr[left].compareTo((T) arr[pivot]) <= 0)
 				{
 					left++;
 				}
 				// sweep left to find value less than pivot
-				else if (arr[right].compareTo(arr[pivot]) >= 0)
+				else if (arr[right].compareTo((T) arr[pivot]) >= 0)
 				{
 					right--;
 				}
@@ -304,7 +282,7 @@ public class CustomArrays
 
 			// place pivot in correct position
 			// place pivot 1 less than left index if less than left index value
-			if (arr[pivot].compareTo(arr[left]) < 0)
+			if (arr[pivot].compareTo((T) arr[left]) < 0)
 			{
 				swap(arr, pivot, left - 1);
 				pivot = left - 1;
@@ -324,10 +302,9 @@ public class CustomArrays
 	}
 
 	/**
-	 * The heapSort method implements heap Sort, An in place sorting
-	 * algorithm invented by J. W. J. Williams in 1964. This implementation is not
-	 * stable (the original ordering is not necessarily preserved). \nRunning
-	 * time:
+	 * The heapSort method implements heap Sort, An in place sorting algorithm
+	 * invented by J. W. J. Williams in 1964. This implementation is not stable
+	 * (the original ordering is not necessarily preserved). \nRunning time:
 	 * <ul>
 	 * <li>average: O(n log n)</li>
 	 * <li>worst: O(n log n)</li>
@@ -338,14 +315,16 @@ public class CustomArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 */
-	public static void heapSort(Comparable[] arr)
+	public static <T> void heapSort(Comparable<T>[] arr, int from, int to)
 	{
-		maxHeapify(arr, arr.length);
-		for (int i = arr.length - 1; i > 0; i--)
+		maxHeapify(arr, from, to);
+		for (int i = to - 1; i > from; i--)
 		{
-			swap(arr, 0, i);
-			siftDown(arr, 0, i);
+			swap(arr, from, i);
+			siftDown(arr, from, i);
 		}
 	}
 
@@ -358,11 +337,11 @@ public class CustomArrays
 	 * @param ascending Check ascending (true) or Check descending (false)
 	 * @return is the array in the specified ordering
 	 */
-	public static boolean isSorted(Comparable[] arr, boolean ascending)
+	public static <T> boolean isSorted(Comparable<T>[] arr, boolean ascending)
 	{
 		for (int i = 0; i < arr.length - 1; i++)
 		{
-			if ((arr[i].compareTo(arr[i + 1]) > 0) == ascending)
+			if ((arr[i].compareTo((T) arr[i + 1]) > 0) == ascending)
 			{
 				return false;
 			}
@@ -376,9 +355,9 @@ public class CustomArrays
 	 * @param index1 first index to swap
 	 * @param index2 second index to swap
 	 */
-	public static void swap(Comparable[] arr, int index1, int index2)
+	public static <T> void swap(Comparable<T>[] arr, int index1, int index2)
 	{
-		Comparable temp = arr[index1];
+		Comparable<T> temp = arr[index1];
 		arr[index1] = arr[index2];
 		arr[index2] = temp;
 	}
@@ -390,7 +369,7 @@ public class CustomArrays
 	 * @param index Index to insert element at
 	 * @param n Value to insert
 	 */
-	public static void insert(Comparable[] arr, int index, Comparable n)
+	public static <T> void insert(Comparable<T>[] arr, int index, Comparable<T> n)
 	{
 		// shift elements 1 to the right
 		for (int i = arr.length - 1; i > index; i--)
@@ -410,10 +389,10 @@ public class CustomArrays
 	 *        half)
 	 * @param to end index (not inclusive)
 	 */
-	public static void merge(Comparable[] arr, int from, int middle, int to)
+	public static <T> void merge(Comparable<T>[] arr, int from, int middle, int to)
 	{
 		// create temp array
-		Comparable[] tempArr = new Comparable[to - from];
+		Comparable<T>[] tempArr = new Comparable[to - from];
 
 		for (int i = 0; i < tempArr.length; i++)
 			tempArr[i] = arr[from + i];
@@ -425,7 +404,7 @@ public class CustomArrays
 		int k = 0;
 		while (i < middle && j < to)
 		{
-			if (arr[i].compareTo(arr[j]) < 0)
+			if (arr[i].compareTo((T) arr[j]) < 0)
 			{
 				tempArr[k] = arr[i];
 				i++;
@@ -466,15 +445,16 @@ public class CustomArrays
 	 * The maxHeapify method creates a max heap data structure out of a given
 	 * array.
 	 * @param arr Array to heapify in max ordering
+	 * @param from starting index (inclusive)
 	 * @param to index to end heap data structure at (not inclusive)
 	 */
-	public static void maxHeapify(Comparable[] arr, int to)
+	public static <T> void maxHeapify(Comparable<T>[] arr, int from, int to)
 	{
 		// build a max heap for the given portion of the array by maxHeapifying
 		// the sub-heaps beginning on the lowest layer (starting at index to /
 		// 2) of sub-heaps in the portion with children nodes
 		// and working backwards up the array
-		for (int i = to / 2; i >= 0; i--)
+		for (int i = to / 2; i >= from; i--)
 		{
 			siftDown(arr, i, to);
 		}
@@ -487,7 +467,7 @@ public class CustomArrays
 	 * @param from parent index (inclusive)
 	 * @param to ending index for heapifying (not inclusive)
 	 */
-	public static void siftDown(Comparable[] arr, int from, int to)
+	public static <T> void siftDown(Comparable<T>[] arr, int from, int to)
 	{
 		// get child nodes of from index
 		int left = 2 * from + 1;
@@ -497,12 +477,12 @@ public class CustomArrays
 		// child up the heap until it is its the proper place
 		while (left < to && right < to)
 		{
-			if (arr[from].compareTo(arr[left]) < 0 && arr[left].compareTo(arr[right]) > 0)
+			if (arr[from].compareTo((T) arr[left]) < 0 && arr[left].compareTo((T) arr[right]) > 0)
 			{
 				swap(arr, from, left);
 				from = left;
 			}
-			else if (arr[from].compareTo(arr[right]) < 0)
+			else if (arr[from].compareTo((T) arr[right]) < 0)
 			{
 				swap(arr, from, right);
 				from = right;
@@ -518,24 +498,113 @@ public class CustomArrays
 		// catch single child case
 		if (left < to)
 		{
-			if (arr[from].compareTo(arr[left]) < 0)
+			if (arr[from].compareTo((T) arr[left]) < 0)
 			{
 				swap(arr, from, left);
 			}
 		}
 	}
 
+	// UI methods
+	// ---------------------------------------------------------
+
 	/**
-	 * The printArray method prints an Comparable[] array in the format [a,b,c,...,n]
+	 * The printArray method prints an Comparable[] array in the format
+	 * [a,b,c,...,n]
 	 * @param arr Array to print
 	 */
-	public static void printArray(Comparable[] arr)
+	public static <T> void printArray(Comparable<T>[] arr)
 	{
 		String output = "[";
-		for (Comparable n : arr)
+		for (Comparable<T> n : arr)
 		{
 			output += n + ",";
 		}
 		System.out.println(output.substring(0, output.length() - 1) + "]");
+	}
+
+	// Delegates
+	// ---------------------------------------------------------------
+
+	/**
+	 * The bubbleSort method sorts an entire array using bubble sort.
+	 * @param arr array to sort
+	 */
+	public static <T> void bubbleSort(Comparable<T>[] arr)
+	{
+		bubbleSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The selectionSort method sorts an entire array using a selection sort.
+	 * @param arr array to sort
+	 */
+	public static <T> void selectionSort(Comparable<T>[] arr)
+	{
+		selectionSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The insertionSort method sorts an entire array using an insertion sort
+	 * @param arr array to sort
+	 */
+	public static <T> void insertionSort(Comparable<T>[] arr)
+	{
+		insertionSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The mergeSort method sorts an entire array using a merge sort
+	 * @param arr array to sort
+	 */
+	public static <T> void mergeSort(Comparable<T>[] arr)
+	{
+		mergeSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The quickSort method sorts an entire array using a single pivot quick
+	 * sort
+	 * @param arr array to sort
+	 */
+	public static <T> void quickSort(Comparable<T>[] arr)
+	{
+		quickSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The heapSort method sorts an entire array using a max-heap based heap
+	 * sort
+	 * @param arr array to sort
+	 */
+	public static <T> void heapSort(Comparable<T>[] arr)
+	{
+		heapSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The binarySearchIterative method searches a pre-sorted array for a given
+	 * value using an iterative implementation of the binary search algorithm.
+	 * If the value is not found, it returns -1.
+	 * @param arr Array to search
+	 * @param n Value to search for
+	 * @return Index of element (-1 if not found)
+	 */
+	public static <T> int binarySearch(Comparable<T>[] arr, Comparable<T> n)
+	{
+		return binarySearch(arr, 0, arr.length, n);
+	}
+
+	/**
+	 * The sequentialSearch method searches the given array from start to finish
+	 * and returns the first index at which it finds the specified value. If the
+	 * value is not found, it returns -1.
+	 * @param arr array to search
+	 * @param n value to find
+	 * @return Index of element (-1 if not found)
+	 */
+	public static <T> int sequentialSearch(Comparable<T>[] arr, Comparable<T> n)
+	{
+		return sequentialSearch(arr, 0, arr.length, n);
 	}
 }

@@ -1,5 +1,9 @@
 package CustomAlgorithms;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * The CustomIntArrays class provides an API for searching, sorting, and
  * manipulating arrays of primitive ints.
@@ -22,12 +26,14 @@ public class CustomIntArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to search
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 * @param n Value to search for
 	 * @return Index of element (-1 if not found)
 	 */
-	public static int sequentialSearch(int[] arr, int n)
+	public static int sequentialSearch(int[] arr, int from, int to, int n)
 	{
-		for (int i = 0; i < arr.length; i++)
+		for (int i = from; i < to; i++)
 		{
 			if (arr[i] == n)
 			{
@@ -54,12 +60,13 @@ public class CustomIntArrays
 	 * </ul>
 	 * @param arr Array to search
 	 * @param n Value to search for
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 * @return Index of element (-1 if not found)
 	 */
-	public static int binarySearchIterative(int[] arr, int n)
+	public static int binarySearch(int[] arr, int from, int to, int n)
 	{
-		int to = arr.length - 1;
-		int from = 0;
+		to--;
 
 		while (from <= to)
 		{
@@ -73,61 +80,6 @@ public class CustomIntArrays
 				to = middle - 1;
 		}
 		return -1;
-	}
-
-	/**
-	 * The binarySearchRecursive method searches a pre-sorted array for a given
-	 * value using an recursive implementation of the binary search algorithm.
-	 * If the value is not found, it returns -1. Running time:
-	 * <ul>
-	 * <li>average: O(n log n)</li>
-	 * <li>worst O(n log n)</li>
-	 * <li>best O(1)</li>
-	 * </ul>
-	 * Memory Usage:
-	 * <ul>
-	 * <li>O(1)</li>
-	 * </ul>
-	 * @param arr Array to search
-	 * @param n Value to search for
-	 * @return Index of element (-1 if not found)
-	 */
-	public static int binarySearchRecursive(int[] arr, int n)
-	{
-		return binarySearchRecursive(arr, 0, arr.length - 1, n);
-	}
-
-	/**
-	 * The binarySearchRecursive method searches a pre-sorted array for a given
-	 * value using an recursive implementation of the binary search algorithm.
-	 * If the value is not found, it returns -1. Running time:
-	 * <ul>
-	 * <li>average: O(n log n)</li>
-	 * <li>worst O(n log n)</li>
-	 * <li>best O(1)t</li>
-	 * </ul>
-	 * Memory Usage:
-	 * <ul>
-	 * <li>O(1)</li>
-	 * </ul>
-	 * @param arr Array to search
-	 * @param n Value to search for
-	 * @param from starting index (inclusive)
-	 * @param to ending index (inclusive)
-	 * @return Index of element (-1 if not found)
-	 */
-	public static int binarySearchRecursive(int[] arr, int from, int to, int n)
-	{
-		int middle = (to + from) / 2;
-
-		if (arr[middle] == n)
-			return middle;
-		else if (from > to)
-			return -1;
-		else if (n > arr[middle])
-			return binarySearchRecursive(arr, middle + 1, to, n);
-		else
-			return binarySearchRecursive(arr, from, middle - 1, n);
 	}
 
 	// Sorts
@@ -147,12 +99,14 @@ public class CustomIntArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 */
-	public static void bubbleSort(int[] arr)
+	public static void bubbleSort(int[] arr, int from, int to)
 	{
-		for (int i = 0; i < arr.length; i++)
+		for (int i = from; i < to; i++)
 		{
-			for (int j = 1; j < arr.length; j++)
+			for (int j = from + 1; j < to; j++)
 			{
 				// swap if in the wrong order
 				if (arr[j] < arr[j - 1])
@@ -177,10 +131,12 @@ public class CustomIntArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param ending index (not inclusive)
 	 */
-	public static void selectionSort(int[] arr)
+	public static void selectionSort(int[] arr, int from, int to)
 	{
-		int sortedIndex = 0;
+		int sortedIndex = from;
 
 		while (sortedIndex < arr.length)
 		{
@@ -215,19 +171,21 @@ public class CustomIntArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (not inclusive)
 	 */
-	public static void insertionSort(int[] arr)
+	public static void insertionSort(int[] arr, int from, int to)
 	{
-		int sortedIndex = 0;
-		int i = arr.length - 1;
+		int sortedIndex = from;
+		int i = to - 1;
 
 		// build sorted portion
-		while (sortedIndex < arr.length)
+		while (sortedIndex < to)
 		{
 			boolean inserted = false;
 
 			// grab last element and insert
-			int j = 0;
+			int j = from;
 			while (!inserted && j < sortedIndex)
 			{
 				if (arr[i] < arr[j])
@@ -357,14 +315,274 @@ public class CustomIntArrays
 	 * <li>O(1)</li>
 	 * </ul>
 	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (not inclusive)
 	 */
-	public static void heapSort(int[] arr)
+	public static void heapSort(int[] arr, int from, int to)
 	{
-		maxHeapify(arr, arr.length);
-		for (int i = arr.length - 1; i > 0; i--)
+		maxHeapify(arr, from, to);
+		for (int i = to -1; i > from; i--)
 		{
-			swap(arr, 0, i);
-			siftDown(arr, 0, i);
+			swap(arr, from, i);
+			siftDown(arr, from, i);
+		}
+	}
+	
+	/**
+	 * The binaryMSDRadixSort method implements binary quicksort. It divides the
+	 * array into 2 buckets, left and right and enacts an in place MSD radix
+	 * sort. This is not a stable sort.
+	 * <ul>
+	 * <li>average: O(w n)</li>
+	 * <li>worst: O(w n)</li>
+	 * <li>best: O( w n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
+	 * @param depth starting depth (should start at 0)
+	 * @param maxDepth maxDepth (start at -1 for online calc)
+	 */
+	public static void binaryMSDRadixSort(int[] arr, int from, int to, int depth, int maxDepth)
+	{
+		// compute max depth required for MSD in place binary radix sort
+		if (maxDepth == -1)
+		{
+			int max = arr[0];
+			for (int i = 1; i < arr.length; i++)
+			{
+				max = Math.max(max, arr[i]);
+			}
+			maxDepth = (int) Math.round((Math.log(max) / Math.log(2)));
+		}
+
+		// setup bucket indices and bit for comparison
+		int left = from;
+		int right = to - 1;
+		int bit = (int) Math.pow(2, maxDepth - depth);
+
+		// separate elements into left and right buckets
+		int i = from;
+		while (left < right)
+		{
+			if ((arr[i] & bit) == bit)
+			{
+				swap(arr, right, i);
+				right--;
+			}
+			else
+			{
+				left++;
+				i++;
+			}
+		}
+
+		// sort left and right buckets
+		if (depth < maxDepth && i < arr.length)
+		{
+			if ((arr[i] & bit) == bit)
+			{
+				binaryMSDRadixSort(arr, from, i, depth + 1, maxDepth);
+				binaryMSDRadixSort(arr, i, to, depth + 1, maxDepth);
+			}
+			else
+			{
+				binaryMSDRadixSort(arr, from, i + 1, depth + 1, maxDepth);
+				binaryMSDRadixSort(arr, i + 1, to, depth + 1, maxDepth);
+			}
+		}
+	}
+
+	/**
+	 * The decimalLSDRadisSort method sorts and array using an LSD radix sort
+	 * and 10 buckets. This is a stable sort.
+	 * <ul>
+	 * <li>average: O(w n)</li>
+	 * <li>worst: O(w n)</li>
+	 * <li>best: O( w n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(n)</li>
+	 * </ul>
+	 * @param arr array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (not inclusive)
+	 */
+	public static void decimalLSDRadixSort(int[] arr, int from, int to)
+	{
+		int depth = 0;
+		// compute max depth required
+		int max = arr[from];
+		for (int i = from + 1; i < to; i++)
+		{
+			max = Math.max(max, arr[i]);
+		}
+
+		int maxDepth = (int) Math.round((Math.log(max) / Math.log(10))) + 1;
+
+		// cannot create generic arrays of queues -> must use collection
+		ArrayList<Queue<Integer>> buckets = new ArrayList<Queue<Integer>>(10);
+		for (int i = 0; i < 10; i++)
+		{
+			buckets.add(new LinkedList<Integer>());
+		}
+
+		// sort by each LSD until none remain
+		while (depth < maxDepth)
+		{
+			// throw values into buckets
+			for (int i = from; i < to; i++)
+			{
+				// get the desired 10's place and throw it in the correct bucket
+				buckets.get(arr[i] % (int) Math.pow(10, depth + 1) / (int) Math.pow(10, depth)).add(arr[i]);
+			}
+
+			// get values back from buckets
+			int i = 0;
+			for (Queue<Integer> q : buckets)
+			{
+				while (q.peek() != null)
+				{
+					arr[i] = q.remove();
+					i++;
+				}
+			}
+			
+
+			// sort next LSD
+			depth++;
+		}
+	}
+
+	/**
+	 * The hexadecimalLSDRadisSort method sorts and array using an LSD radix
+	 * sort and 16 buckets. This is a stable sort.
+	 * <ul>
+	 * <li>average: O(w n)</li>
+	 * <li>worst: O(w n)</li>
+	 * <li>best: O( w n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(n)</li>
+	 * </ul>
+	 * @param arr array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (not inclusive)
+	 */
+	public static void hexadecimalLSDRadixSort(int[] arr, int from, int to)
+	{
+		int depth = 0;
+		// compute max depth required
+		int max = arr[from];
+		for (int i = from + 1; i < to; i++)
+		{
+			max = Math.max(max, arr[i]);
+		}
+
+		int maxDepth = (int) Math.round((Math.log(max) / Math.log(0xF))) + 1;
+
+		// cannot create generic arrays of queues -> must use collection
+		ArrayList<Queue<Integer>> buckets = new ArrayList<Queue<Integer>>(0xF);
+		for (int i = 0; i < 0xF; i++)
+		{
+			buckets.add(new LinkedList<Integer>());
+		}
+
+		// sort by each LSD until none remain
+		while (depth < maxDepth)
+		{
+
+			// throw values into buckets
+			for (int i = from; i < to; i++)
+			{
+				// get the desired 16's place and throw it in the correct bucket
+				buckets.get(arr[i] % (int) Math.pow(0xF, depth + 1) / (int) Math.pow(0xF, depth)).add(arr[i]);
+			}
+
+			// get values back from buckets
+			int i = from;
+			for (Queue<Integer> q : buckets)
+			{
+				while (q.peek() != null)
+				{
+					arr[i] = q.remove();
+					i++;
+				}
+			}
+
+			// sort next LSD
+			depth++;
+		}
+	}
+
+	/**
+	 * The definedBucketslLSDRadisSort method sorts an array using an LSD radix sort
+	 * with n buckets. This is a stable sort.
+	 * <ul>
+	 * <li>average: O(w n)</li>
+	 * <li>worst: O(w n)</li>
+	 * <li>best: O( w n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(n)</li>
+	 * </ul>
+	 * @param arr array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (not inclusive)
+	 * @param numBuckets the number of buckets to use for the sort (the base in
+	 *        which to treat the numbers)
+	 */
+	public static void definedBucketsLSDRadixSort(int[] arr, int from, int to, int numBuckets)
+	{
+		int depth = 0;
+		// compute max depth required
+		int max = arr[from];
+		for (int i = from + 1; i < to; i++)
+		{
+			max = Math.max(max, arr[i]);
+		}
+
+		int maxDepth = (int) Math.round((Math.log(max) / Math.log(numBuckets))) + 1;
+
+		// cannot create generic arrays of queues -> must use collection
+		ArrayList<Queue<Integer>> buckets = new ArrayList<Queue<Integer>>(numBuckets);
+		for (int i = 0; i < numBuckets; i++)
+		{
+			buckets.add(new LinkedList<Integer>());
+		}
+
+		// sort by each LSD until none remain
+		while (depth < maxDepth)
+		{
+
+			// throw values into buckets
+			for (int i = from; i < to; i++)
+			{
+				// get the desired 16's place and throw it in the correct bucket
+				buckets.get(arr[i] % (int) Math.pow(numBuckets, depth + 1) / (int) Math.pow(numBuckets, depth))
+						.add(arr[i]);
+			}
+
+			// get values back from buckets
+			int i = from;
+			for (Queue<Integer> q : buckets)
+			{
+				while (q.peek() != null)
+				{
+					arr[i] = q.remove();
+					i++;
+				}
+			}
+
+			// sort next LSD
+			depth++;
 		}
 	}
 
@@ -485,15 +703,16 @@ public class CustomIntArrays
 	 * The maxHeapify method creates a max heap data structure out of a given
 	 * array.
 	 * @param arr Array to heapify in max ordering
+	 * @param from starting index (inclusive)
 	 * @param to index to end heap data structure at (not inclusive)
 	 */
-	public static void maxHeapify(int[] arr, int to)
+	public static void maxHeapify(int[] arr, int from, int to)
 	{
 		// build a max heap for the given portion of the array by maxHeapifying
 		// the sub-heaps beginning on the lowest layer (starting at index to /
 		// 2) of sub-heaps in the portion with children nodes
 		// and working backwards up the array
-		for (int i = to / 2; i >= 0; i--)
+		for (int i = to / 2; i >= from; i--)
 		{
 			siftDown(arr, i, to);
 		}
@@ -544,6 +763,9 @@ public class CustomIntArrays
 		}
 	}
 
+	// UI Methods
+	// -----------------------------------------------
+	
 	/**
 	 * The printArray method prints an int[] array in the format [a,b,c,...,n]
 	 * @param arr Array to print
@@ -557,4 +779,213 @@ public class CustomIntArrays
 		}
 		System.out.println(output.substring(0, output.length() - 1) + "]");
 	}
+	
+	/**
+	 * The printArray method prints an int[] array in the format [a,b,c,...,n], showing binary values
+	 * @param arr Array to print
+	 */
+	public static void printIntegerArrayBinary(int[] arr)
+	{
+		String output = "[";
+		for(int n : arr)
+		{
+			output += Integer.toString(n, 2) + ",";
+		}
+		System.out.println(output.substring(0, output.length() - 1) + "]");
+	}
+	
+	/**
+	 * The printArray method prints an int[] array in the format [a,b,c,...,n], showing binary values
+	 * @param arr Array to print
+	 * @param from starting index inclusive
+	 * @param to ending index exclusive
+	 */
+	public static void printPartialArrayBinary(int[] arr, int from, int to)
+	{
+		String output = "[";
+		for(int i = from ; i < to; i++)
+			output += Integer.toString(arr[i], 2) + ",";
+		System.out.println(output.substring(0, output.length() - 1) + "]");
+	}
+	
+	/**
+	 * The printArray method prints an int[] array in the format [a,b,c,...,n]
+	 * @param arr Array to print
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
+	 */
+	public static void printPartialArray(int[] arr, int from, int to)
+	{
+		String output = "[";
+		for(int i = from ; i < to; i++)
+			output += arr[i] + ",";
+		System.out.println(output.substring(0, output.length() - 1) + "]");
+	}
+	
+	/**
+	 * The printArray method prints an int[] array in the format [a,b,c,...,n], showing base b values
+	 * @param arr Array to print
+	 * @param from starting index inclusive
+	 * @param to ending index exclusive
+	 * @param b base to display
+	 */
+	public static void printPartialArrayBase(int[] arr, int from, int to, int b)
+	{
+		String output = "[";
+		for(int i = from ; i < to; i++)
+			output += Integer.toString(arr[i], 2) + ",";
+		System.out.println(output.substring(0, output.length() - 1) + "]");
+	}
+	
+	/**
+	 * The printArray method prints an int[] array in the format [a,b,c,...,n], showing base b values
+	 * @param arr Array to print
+	 * @param b base to display
+	 */
+	public static void printArrayBase(int[] arr, int from, int to, int b)
+	{
+		String output = "[";
+		for(int i = from ; i < to; i++)
+			output += arr[i] + ",";
+		System.out.println(output.substring(0, output.length() - 1) + "]");
+	}
+	
+	// Delegates
+	// -----------------------------------------------
+	
+
+	/**
+	 * The bubbleSort method sorts an entire array using bubble sort.
+	 * @param arr array to sort
+	 */
+	public static void bubbleSort(int[] arr)
+	{
+		bubbleSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The selectionSort method sorts an entire array using a selection sort.
+	 * @param arr array to sort
+	 */
+	public static void selectionSort(int[] arr)
+	{
+		selectionSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The insertionSort method sorts an entire array using an insertion sort
+	 * @param arr array to sort
+	 */
+	public static void insertionSort(int[] arr)
+	{
+		insertionSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The mergeSort method sorts an entire array using a merge sort
+	 * @param arr array to sort
+	 */
+	public static void mergeSort(int[] arr)
+	{
+		mergeSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The quickSort method sorts an entire array using a single pivot quick
+	 * sort
+	 * @param arr array to sort
+	 */
+	public static void quickSort(int[] arr)
+	{
+		quickSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The heapSort method sorts an entire array using a max-heap based heap
+	 * sort
+	 * @param arr array to sort
+	 */
+	public static void heapSort(int[] arr)
+	{
+		heapSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The binaryMSDRadixSort method sorts an entire array using binary quick
+	 * sort
+	 * @param arr array to sort
+	 */
+	public static void binaryMSDRadixSort(int[] arr)
+	{
+		binaryMSDRadixSort(arr, 0, arr.length, 0, -1);
+	}
+
+	/**
+	 * The binaryMSDRadixSort method sorts an entire array using binary quick
+	 * sort limited to a MSD
+	 * @param arr array to sort
+	 * @param maxDepth maximum depth of recursion (defined MSD in binary)
+	 */
+	public static void binaryMSDRadixSort(int[] arr, int maxDepth)
+	{
+		binaryMSDRadixSort(arr, 0, arr.length, 0, maxDepth);
+	}
+
+	/**
+	 * The decimalLSDRadix sort method sorts an entire array using a radix sort
+	 * with 10 buckets.
+	 * @param arr array to sort
+	 */
+	public static void decimalLSDRadixSort(int[] arr)
+	{
+		decimalLSDRadixSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The hexadecimalLSDRadixSort method sorts an entire array using a radix
+	 * sort with 16 buckets
+	 * @param arr array to sort
+	 */
+	public static void hexadecimalLSDRadixSort(int[] arr)
+	{
+		hexadecimalLSDRadixSort(arr, 0, arr.length);
+	}
+
+	/**
+	 * The definedBucketsLSDRadixSort method sorts an entire array using a radix sort
+	 * with n buckets
+	 * @param arr array to sort
+	 * @param numBuckets number of buckets to use (base to sort in)
+	 */
+	public static void definedBucketsLSDRadixSort(int[] arr, int numBuckets)
+	{
+		definedBucketsLSDRadixSort(arr, 0, arr.length, numBuckets);
+	}
+
+	/**
+	 * The binarySearchIterative method searches a pre-sorted array for a given
+	 * value using an iterative implementation of the binary search algorithm.
+	 * If the value is not found, it returns -1.
+	 * @param arr Array to search
+	 * @param n Value to search for
+	 * @return Index of element (-1 if not found)
+	 */
+	public static int binarySearch(int[] arr, int n)
+	{
+		return binarySearch(arr, 0, arr.length, n);
+	}
+	
+	/**
+	 * The sequentialSearch method searches the given array from start to finish
+	 * and returns the first index at which it finds the specified value. If the
+	 * value is not found, it returns -1.
+	 * @param arr array to search
+	 * @param n value to find
+	 * @return Index of element (-1 if not found)
+	 */
+	public static int sequentialSearch(int[] arr, int n)
+	{
+		return sequentialSearch(arr, 0, arr.length, n);
+	}
+	
 }
