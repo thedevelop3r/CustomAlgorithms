@@ -833,7 +833,7 @@ public class CustomIntArrays
 	{
 		String output = "[";
 		for(int i = from ; i < to; i++)
-			output += Integer.toString(arr[i], 2) + ",";
+			output += Integer.toString(arr[i], b) + ",";
 		System.out.println(output.substring(0, output.length() - 1) + "]");
 	}
 	
@@ -846,7 +846,7 @@ public class CustomIntArrays
 	{
 		String output = "[";
 		for(int i = from ; i < to; i++)
-			output += arr[i] + ",";
+			output +=  Integer.toString(arr[i], b) + ",";
 		System.out.println(output.substring(0, output.length() - 1) + "]");
 	}
 	
