@@ -15,7 +15,7 @@ public class CustomIntArrays
 	/**
 	 * The sequentialSearch method searches the given array from start to finish
 	 * and returns the first index at which it finds the specified value. If the
-	 * value is not found, it returns -1. Running time:
+	 * value is not found, it returns -1.\nRunning Time:
 	 * <ul>
 	 * <li>average: O(n)</li>
 	 * <li>worst O(n)</li>
@@ -132,7 +132,7 @@ public class CustomIntArrays
 	 * </ul>
 	 * @param arr Array to sort
 	 * @param from starting index (inclusive)
-	 * @param ending index (not inclusive)
+	 * @param to ending index (not inclusive)
 	 */
 	public static void selectionSort(int[] arr, int from, int to)
 	{
@@ -652,9 +652,6 @@ public class CustomIntArrays
 		// create temp array
 		int[] tempArr = new int[to - from];
 
-		for (int i = 0; i < tempArr.length; i++)
-			tempArr[i] = arr[from + i];
-
 		int i = from;
 		int j = middle;
 
@@ -840,6 +837,8 @@ public class CustomIntArrays
 	/**
 	 * The printArray method prints an int[] array in the format [a,b,c,...,n], showing base b values
 	 * @param arr Array to print
+	 * 	@param from starting index (inclusive)
+	 * @param to ending index (exclusive)
 	 * @param b base to display
 	 */
 	public static void printArrayBase(int[] arr, int from, int to, int b)

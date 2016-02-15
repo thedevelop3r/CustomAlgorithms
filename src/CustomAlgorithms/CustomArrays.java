@@ -15,7 +15,7 @@ public class CustomArrays
 	/**
 	 * The sequentialSearch method searches the given array from start to finish
 	 * and returns the first index at which it finds the specified value. If the
-	 * value is not found, it returns -1. Running time:
+	 * value is not found, it returns -1.\nRunning Time:
 	 * <ul>
 	 * <li>average: O(n)</li>
 	 * <li>worst O(n)</li>
@@ -25,13 +25,15 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
+	 * @param <T> Comparable type
 	 * @param arr Array to search
 	 * @param n Value to search for
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 * @return Index of element (-1 if not found)
 	 */
-	public static <T> int sequentialSearch(Comparable<T>[] arr, int from, int to, Comparable<T> n)
+	public static <T extends Comparable<? super T>> int sequentialSearch(Comparable<T>[] arr, int from, int to,
+			Comparable<T> n)
 	{
 		for (int i = from; i < to; i++)
 		{
@@ -58,13 +60,15 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
+	 * @param <T> Comparable type
 	 * @param arr Array to search
 	 * @param n Value to search for
 	 * @param from starting value (inclusive)
 	 * @param to ending value (exclusive)
 	 * @return Index of element (-1 if not found)
 	 */
-	public static <T> int binarySearch(Comparable<T>[] arr, int from, int to, Comparable<T> n)
+	public static <T extends Comparable<? super T>> int binarySearch(Comparable<T>[] arr, int from, int to,
+			Comparable<T> n)
 	{
 		to--;
 
@@ -98,11 +102,12 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
+	 * @param <T> Comparable type
 	 * @param arr Array to sort
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static <T> void bubbleSort(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void bubbleSort(Comparable<T>[] arr, int from, int to)
 	{
 		for (int i = from; i < to; i++)
 		{
@@ -130,11 +135,12 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
+	 * @param <T> Comparable type
 	 * @param arr Array to sort
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static <T> void selectionSort(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void selectionSort(Comparable<T>[] arr, int from, int to)
 	{
 		int sortedIndex = from;
 
@@ -170,12 +176,12 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
-	 * @param <T>
+	 * @param <T> Comparable type
 	 * @param arr Array to sort
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static <T> void insertionSort(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void insertionSort(Comparable<T>[] arr, int from, int to)
 	{
 		int sortedIndex = from;
 		int i = to - 1;
@@ -219,11 +225,12 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(n)</li>
 	 * </ul>
+	 * @param <T> Comparable type
 	 * @param arr Array to sort
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static <T> void mergeSort(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void mergeSort(Comparable<T>[] arr, int from, int to)
 	{
 		if (to - from > 1)
 		{
@@ -247,11 +254,12 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
+	 * @param <T> Comparable type
 	 * @param arr Array to sort
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static <T> void quickSort(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void quickSort(Comparable<T>[] arr, int from, int to)
 	{
 		if (to - from > 1)
 		{
@@ -314,11 +322,12 @@ public class CustomArrays
 	 * <ul>
 	 * <li>O(1)</li>
 	 * </ul>
+	 * @param <T> Comparable type
 	 * @param arr Array to sort
 	 * @param from starting index (inclusive)
 	 * @param to ending index (exclusive)
 	 */
-	public static <T> void heapSort(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void heapSort(Comparable<T>[] arr, int from, int to)
 	{
 		maxHeapify(arr, from, to);
 		for (int i = to - 1; i > from; i--)
@@ -333,11 +342,12 @@ public class CustomArrays
 
 	/**
 	 * The isSorted method checks if an array is sorted ascending or descending.
+	 * @param <T> Comparable type
 	 * @param arr Array to check
 	 * @param ascending Check ascending (true) or Check descending (false)
 	 * @return is the array in the specified ordering
 	 */
-	public static <T> boolean isSorted(Comparable<T>[] arr, boolean ascending)
+	public static <T extends Comparable<? super T>> boolean isSorted(Comparable<T>[] arr, boolean ascending)
 	{
 		for (int i = 0; i < arr.length - 1; i++)
 		{
@@ -351,11 +361,12 @@ public class CustomArrays
 
 	/**
 	 * The swap method swaps elements in the two specified array indices.
+	 * @param <T> Comparable type
 	 * @param arr Array to swap elements of
 	 * @param index1 first index to swap
 	 * @param index2 second index to swap
 	 */
-	public static <T> void swap(Comparable<T>[] arr, int index1, int index2)
+	public static <T extends Comparable<? super T>> void swap(Comparable<T>[] arr, int index1, int index2)
 	{
 		Comparable<T> temp = arr[index1];
 		arr[index1] = arr[index2];
@@ -365,11 +376,12 @@ public class CustomArrays
 	/**
 	 * The insert method shifts all elements 1 to the left of the specified
 	 * index and inserts the given value at that index.
+	 * @param <T> Comparable type
 	 * @param arr Array to insert element in
 	 * @param index Index to insert element at
 	 * @param n Value to insert
 	 */
-	public static <T> void insert(Comparable<T>[] arr, int index, Comparable<T> n)
+	public static <T extends Comparable<? super T>> void insert(Comparable<T>[] arr, int index, Comparable<T> n)
 	{
 		// shift elements 1 to the right
 		for (int i = arr.length - 1; i > index; i--)
@@ -383,19 +395,17 @@ public class CustomArrays
 	 * The merge method merges two sorted sub-arrays contained in a given array
 	 * back into that given array. The sub-arrays are defined by the specified
 	 * indices.
+	 * @param <T> Comparable type
 	 * @param arr Array to merge sub-arrays in to
 	 * @param from start index (inclusive in first half)
 	 * @param middle middle index (inclusive in second half, exclusive in first
 	 *        half)
 	 * @param to end index (not inclusive)
 	 */
-	public static <T> void merge(Comparable<T>[] arr, int from, int middle, int to)
+	public static <T extends Comparable<? super T>> void merge(Comparable<T>[] arr, int from, int middle, int to)
 	{
 		// create temp array
 		Comparable<T>[] tempArr = new Comparable[to - from];
-
-		for (int i = 0; i < tempArr.length; i++)
-			tempArr[i] = arr[from + i];
 
 		int i = from;
 		int j = middle;
@@ -444,11 +454,12 @@ public class CustomArrays
 	/**
 	 * The maxHeapify method creates a max heap data structure out of a given
 	 * array.
+	 * @param <T> Comparable type
 	 * @param arr Array to heapify in max ordering
 	 * @param from starting index (inclusive)
 	 * @param to index to end heap data structure at (not inclusive)
 	 */
-	public static <T> void maxHeapify(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void maxHeapify(Comparable<T>[] arr, int from, int to)
 	{
 		// build a max heap for the given portion of the array by maxHeapifying
 		// the sub-heaps beginning on the lowest layer (starting at index to /
@@ -463,11 +474,12 @@ public class CustomArrays
 	/**
 	 * The siftUp method corrects the ordering in a portion of a max heap data
 	 * structure iteratively.
+	 * @param <T> Comparable type
 	 * @param arr Array to correct ordering of max heap portion in
 	 * @param from parent index (inclusive)
 	 * @param to ending index for heapifying (not inclusive)
 	 */
-	public static <T> void siftDown(Comparable<T>[] arr, int from, int to)
+	public static <T extends Comparable<? super T>> void siftDown(Comparable<T>[] arr, int from, int to)
 	{
 		// get child nodes of from index
 		int left = 2 * from + 1;
@@ -511,9 +523,10 @@ public class CustomArrays
 	/**
 	 * The printArray method prints an Comparable[] array in the format
 	 * [a,b,c,...,n]
+	 * @param <T> Comparable type
 	 * @param arr Array to print
 	 */
-	public static <T> void printArray(Comparable<T>[] arr)
+	public static <T extends Comparable<? super T>> void printArray(Comparable<T>[] arr)
 	{
 		String output = "[";
 		for (Comparable<T> n : arr)
@@ -528,36 +541,40 @@ public class CustomArrays
 
 	/**
 	 * The bubbleSort method sorts an entire array using bubble sort.
+	 * @param <T> Comparable type
 	 * @param arr array to sort
 	 */
-	public static <T> void bubbleSort(Comparable<T>[] arr)
+	public static <T extends Comparable<? super T>> void bubbleSort(Comparable<T>[] arr)
 	{
 		bubbleSort(arr, 0, arr.length);
 	}
 
 	/**
 	 * The selectionSort method sorts an entire array using a selection sort.
+	 * @param <T> Comparable type
 	 * @param arr array to sort
 	 */
-	public static <T> void selectionSort(Comparable<T>[] arr)
+	public static <T extends Comparable<? super T>> void selectionSort(Comparable<T>[] arr)
 	{
 		selectionSort(arr, 0, arr.length);
 	}
 
 	/**
 	 * The insertionSort method sorts an entire array using an insertion sort
+	 * @param <T> Comparable type
 	 * @param arr array to sort
 	 */
-	public static <T> void insertionSort(Comparable<T>[] arr)
+	public static <T extends Comparable<? super T>> void insertionSort(Comparable<T>[] arr)
 	{
 		insertionSort(arr, 0, arr.length);
 	}
 
 	/**
 	 * The mergeSort method sorts an entire array using a merge sort
+	 * @param <T> Comparable type
 	 * @param arr array to sort
 	 */
-	public static <T> void mergeSort(Comparable<T>[] arr)
+	public static <T extends Comparable<? super T>> void mergeSort(Comparable<T>[] arr)
 	{
 		mergeSort(arr, 0, arr.length);
 	}
@@ -565,9 +582,10 @@ public class CustomArrays
 	/**
 	 * The quickSort method sorts an entire array using a single pivot quick
 	 * sort
+	 * @param <T> Comparable type
 	 * @param arr array to sort
 	 */
-	public static <T> void quickSort(Comparable<T>[] arr)
+	public static <T extends Comparable<? super T>> void quickSort(Comparable<T>[] arr)
 	{
 		quickSort(arr, 0, arr.length);
 	}
@@ -575,9 +593,10 @@ public class CustomArrays
 	/**
 	 * The heapSort method sorts an entire array using a max-heap based heap
 	 * sort
+	 * @param <T> Comparable type
 	 * @param arr array to sort
 	 */
-	public static <T> void heapSort(Comparable<T>[] arr)
+	public static <T extends Comparable<? super T>> void heapSort(Comparable<T>[] arr)
 	{
 		heapSort(arr, 0, arr.length);
 	}
@@ -586,11 +605,12 @@ public class CustomArrays
 	 * The binarySearchIterative method searches a pre-sorted array for a given
 	 * value using an iterative implementation of the binary search algorithm.
 	 * If the value is not found, it returns -1.
+	 * @param <T> Comparable type
 	 * @param arr Array to search
 	 * @param n Value to search for
 	 * @return Index of element (-1 if not found)
 	 */
-	public static <T> int binarySearch(Comparable<T>[] arr, Comparable<T> n)
+	public static <T extends Comparable<? super T>> int binarySearch(Comparable<T>[] arr, Comparable<T> n)
 	{
 		return binarySearch(arr, 0, arr.length, n);
 	}
@@ -599,11 +619,12 @@ public class CustomArrays
 	 * The sequentialSearch method searches the given array from start to finish
 	 * and returns the first index at which it finds the specified value. If the
 	 * value is not found, it returns -1.
+	 * @param <T> Comparable type
 	 * @param arr array to search
 	 * @param n value to find
 	 * @return Index of element (-1 if not found)
 	 */
-	public static <T> int sequentialSearch(Comparable<T>[] arr, Comparable<T> n)
+	public static <T extends Comparable<? super T>> int sequentialSearch(Comparable<T>[] arr, Comparable<T> n)
 	{
 		return sequentialSearch(arr, 0, arr.length, n);
 	}
