@@ -435,11 +435,14 @@ public class CustomIntArrays
 		// sort by each LSD until none remain
 		while (depth < maxDepth)
 		{
+			int mod = (int) Math.pow(10, depth + 1);
+			int div = (int) Math.pow(10, depth);
+			
 			// throw values into buckets
 			for (int i = from; i < to; i++)
 			{
 				// get the desired 10's place and throw it in the correct bucket
-				buckets.get(arr[i] % (int) Math.pow(10, depth + 1) / (int) Math.pow(10, depth)).add(arr[i]);
+				buckets.get(arr[i] % mod / div).add(arr[i]);
 			}
 
 			// get values back from buckets
@@ -497,12 +500,13 @@ public class CustomIntArrays
 		// sort by each LSD until none remain
 		while (depth < maxDepth)
 		{
-
+			int mod =  (int) Math.pow(0xF, depth + 1);
+			int div = (int) Math.pow(0xF, depth);
 			// throw values into buckets
 			for (int i = from; i < to; i++)
 			{
 				// get the desired 16's place and throw it in the correct bucket
-				buckets.get(arr[i] % (int) Math.pow(0xF, depth + 1) / (int) Math.pow(0xF, depth)).add(arr[i]);
+				buckets.get(arr[i] % mod / div).add(arr[i]);
 			}
 
 			// get values back from buckets
@@ -561,12 +565,14 @@ public class CustomIntArrays
 		// sort by each LSD until none remain
 		while (depth < maxDepth)
 		{
-
+			int mod = (int) Math.pow(numBuckets, depth + 1);
+			int div = (int) Math.pow(numBuckets, depth);
+			
 			// throw values into buckets
 			for (int i = from; i < to; i++)
 			{
 				// get the desired 16's place and throw it in the correct bucket
-				buckets.get(arr[i] % (int) Math.pow(numBuckets, depth + 1) / (int) Math.pow(numBuckets, depth))
+				buckets.get(arr[i] % mod / div)
 						.add(arr[i]);
 			}
 
