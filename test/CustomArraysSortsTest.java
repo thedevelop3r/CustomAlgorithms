@@ -115,12 +115,12 @@ public class CustomArraysSortsTest
 	// --------------------------------------------------------------------------
 
 	@Test
-	public void testInsertionSortOdd()
+	public void testInsertionListOptimizedSortOdd()
 	{
 		Integer[] arr = new Integer[] { 5, 4, 3, 2, 1 };
 		Integer[] result = new Integer[] { 1, 2, 3, 4, 5 };
 
-		CustomArrays.insertionSort(arr);
+		CustomArrays.insertionSortListOptimized(arr);
 
 		for (Integer i = 0; i < arr.length; i++)
 		{
@@ -129,12 +129,40 @@ public class CustomArraysSortsTest
 	}
 
 	@Test
-	public void testInsertionSortEven()
+	public void testInsertionListOptimizedSortEven()
 	{
 		Integer[] arr = new Integer[] { 5, 4, 3, 2 };
 		Integer[] result = new Integer[] { 2, 3, 4, 5 };
 
-		CustomArrays.insertionSort(arr);
+		CustomArrays.insertionSortListOptimized(arr);
+
+		for (Integer i = 0; i < arr.length; i++)
+		{
+			assertEquals("All array values should be as" + " specified in result array", arr[i], result[i]);
+		}
+	}
+	
+	@Test
+	public void testInsertionArrayOptimizedSortOdd()
+	{
+		Integer[] arr = new Integer[] { 5, 4, 3, 2, 1 };
+		Integer[] result = new Integer[] { 1, 2, 3, 4, 5 };
+
+		CustomArrays.insertionSortArrayOptimized(arr);
+
+		for (Integer i = 0; i < arr.length; i++)
+		{
+			assertEquals("All array values should be as" + " specified in result array", arr[i], result[i]);
+		}
+	}
+
+	@Test
+	public void testInsertionArrayOptimizedSortEven()
+	{
+		Integer[] arr = new Integer[] { 5, 4, 3, 2 };
+		Integer[] result = new Integer[] { 2, 3, 4, 5 };
+
+		CustomArrays.insertionSortArrayOptimized(arr);
 
 		for (Integer i = 0; i < arr.length; i++)
 		{

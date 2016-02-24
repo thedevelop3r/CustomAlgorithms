@@ -174,7 +174,7 @@ public class CustomIntArrays
 	 * @param from starting index (inclusive)
 	 * @param to ending index (not inclusive)
 	 */
-	public static void insertionSort(int[] arr, int from, int to)
+	public static void insertionSortListOptimized(int[] arr, int from, int to)
 	{
 		int sortedIndex = from;
 		int i = to - 1;
@@ -202,6 +202,56 @@ public class CustomIntArrays
 				j++;
 			}
 			sortedIndex++;
+		}
+	}
+	
+	/**
+	 * The insertionSortArrayOptimized method implements Insertion Sort, a
+	 * stable and in place sorting algorithm. This implementation is stable (the
+	 * original ordering is preserved). \nRunning time:
+	 * <ul>
+	 * <li>average: O(n^2)</li>
+	 * <li>worst: O(n^2)</li>
+	 * <li>best: O(n)</li>
+	 * </ul>
+	 * Memory Usage:
+	 * <ul>
+	 * <li>O(1)</li>
+	 * </ul>
+	 * @param arr Array to sort
+	 * @param from starting index (inclusive)
+	 * @param to ending index (exclusive)
+	 */
+	public static void insertionSortArrayOptimized(int[] arr, int from, int to)
+	{
+		// declare sorted index
+		int i = from;
+
+		// build sorted portion
+		while (i < to)
+		{
+			boolean inserted = false;
+			// grab next element and absorb into sorted portion (insert when
+			// place is found)
+			int j = 0;
+			while (!inserted && j < to)
+			{
+
+				if (arr[i] < arr[j])
+				{
+					partialInsert(arr, j, i, arr[i]);
+					inserted = true;
+				}
+				else if (j == i - 1)
+				{
+					partialInsert(arr, i, i, arr[i]);
+					inserted = true;
+				}
+
+				j++;
+			}
+
+			i++;
 		}
 	}
 
@@ -644,6 +694,26 @@ public class CustomIntArrays
 	}
 
 	/**
+	 * The partialInsert method shifts all elements 1 to the left of the
+	 * specified index until the second index is reached and inserts the given
+	 * value at that index.
+	 * @param arr Array to insert element in
+	 * @param index Index to insert element at (inclusive)
+	 * @param index2 ending index of insertion (inclusive)
+	 * @param n Value to insert
+	 */
+	public static void partialInsert(int[] arr, int index1, int index2, int n)
+	{
+		// shift elements 1 to the right
+		for (int i = index2; i > index1; i--)
+		{
+			arr[i] = arr[i - 1];
+		}
+		arr[index1] = n;
+	}
+
+	
+	/**
 	 * The merge method merges two sorted sub-arrays contained in a given array
 	 * back into that given array. The sub-arrays are defined by the specified
 	 * indices.
@@ -883,7 +953,7 @@ public class CustomIntArrays
 	 */
 	public static void insertionSort(int[] arr)
 	{
-		insertionSort(arr, 0, arr.length);
+		insertionSortListOptimized(arr, 0, arr.length);
 	}
 
 	/**
